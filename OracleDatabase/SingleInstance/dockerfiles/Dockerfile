@@ -7,12 +7,12 @@
 
 # Then build the image with the builder.
 # https://vessel.apple.com/usage/docker-compatibility/compat-mode-examples/#build-an-image
-# docker buildx build --builder vessel-builder -t docker.apple.com/example/empty-db-builder --platform linux/amd64 --progress=plain --load .
-# docker buildx build --builder vessel-builder -t docker.apple.com/example/empty-db-builder --platform linux/arm64 --progress=plain --load .
+# docker buildx build --builder vessel-builder -t docker.apple.com/ocarlsen/empty-db-builder --platform linux/amd64 --progress=plain --load .
+# docker buildx build --builder vessel-builder -t docker.apple.com/ocarlsen/empty-db-builder --platform linux/arm64 --progress=plain --load .
 
 # Run to launch, connect TTY
-# docker run --platform linux/amd64 --privileged -it -v /var/run/docker.sock:/var/run/docker.sock docker.apple.com/example/empty-db-builder
-# docker run --platform linux/arm64 --privileged -it -v /var/run/docker.sock:/var/run/docker.sock docker.apple.com/example/empty-db-builder
+# docker run --platform linux/amd64 --privileged -it -v /var/run/docker.sock:/var/run/docker.sock docker.apple.com/ocarlsen/empty-db-builder
+# docker run --platform linux/arm64 --privileged -it -v /var/run/docker.sock:/var/run/docker.sock docker.apple.com/ocarlsen/empty-db-builder
 
 FROM alpine:3.20.0
 
@@ -31,7 +31,7 @@ COPY ./buildContainerImage.sh /home/root
 RUN apk add --no-cache bash
 RUN apk add --no-cache docker
 
-# Error: kernel does not support overlay fs: unable to create kernel-style whiteout: operation not permitted
+# Fix "Error: kernel does not support overlay fs: unable to create kernel-style whiteout: operation not permitted"
 RUN apk add --no-cache fuse-overlayfs
 
 # TODO: CMD /home/root/buildContainerImage.sh -v ${DB_VERSION} -e
